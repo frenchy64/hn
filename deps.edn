@@ -3,5 +3,7 @@
         clj-http/clj-http {:mvn/version "3.9.1"}
         metosin/jsonista {:mvn/version "0.2.5"}
         crouton/crouton {:mvn/version "0.1.2"}}
- :aliases {:uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
-                     :main-opts ["-m" "hf.depstar.uberjar" "dist/hn.jar"]}}}
+ :aliases {:uberjar {:extra-deps {seancorfield/depstar {:mvn/version "2.0.216"}}
+                     :exec-fn hf.depstar/uberjar
+                     :exec-args {:aot false
+                                 :jar "dist/hn.jar"}}}}
