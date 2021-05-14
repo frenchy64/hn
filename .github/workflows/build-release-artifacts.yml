@@ -8,8 +8,9 @@ on:
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
+  ASSET_VERSION: '1.0'
 jobs:
-  build-deb:
+  build:
     strategy:
       matrix:
         include:
@@ -21,10 +22,10 @@ jobs:
           asset_name: cljfx-hn-1.0.dmg
           asset_content_type: application/x-apple-diskimage
           jpackage_platform: mac
-        - os: windows-latest
-          asset_name: cljfx-hn-1.0.dmg
-          asset_content_type: application/vnd.microsoft.portable-executable
-          jpackage_platform: windows
+        #- os: windows-latest
+        #  asset_name: cljfx-hn-1.0.dmg
+        #  asset_content_type: application/vnd.microsoft.portable-executable
+        #  jpackage_platform: windows
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
