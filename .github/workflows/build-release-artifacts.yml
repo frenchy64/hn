@@ -37,7 +37,7 @@ jobs:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
       - run: |
-          import subprocess
+          import subprocess, os
           subprocess.run(['jpackage',
                           '@jpackage/common',
                           '@jpackage/'+os.environ['JPACKAGE_PLATFORM']])
