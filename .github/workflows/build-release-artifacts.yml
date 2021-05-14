@@ -36,10 +36,10 @@ jobs:
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
-        if: ${{ matrix.os != 'windows' }}
+        if: ${{ matrix.os != 'windows-latest' }}
         shell: bash
       - run: clojure -M:uberjar
-        if: ${{ matrix.os == 'windows' }}
+        if: ${{ matrix.os == 'windows-latest' }}
         shell: powershell
       - run: |
           jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}"
