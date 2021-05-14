@@ -8,7 +8,7 @@ env:
   JAVA_VERSION: '14'
 jobs:
   build:
-    if: "startsWith(github.event.head_commit.message, '[release]')"
+    if: "startsWith(github.event.head_commit.message, '[:release')"
     strategy:
       matrix:
         include:
@@ -40,6 +40,10 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
+      - name: Setup Babashka
+        uses: turtlequeue/setup-babashka@v1.3.0
+        with:
+          babashka-version: 0.4.1
 
       # uberjar
       - run: clojure -X:uberjar
@@ -50,12 +54,14 @@ jobs:
         shell: powershell
 
       - run: |
-          APP_VERSION=1.0 # TODO calculate from commit
+          # expects a message of the form [:release VERSION]
+          APP_VERSION=$(bb -O '(second *input*)' <<< $COMMIT_MSG)
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
         shell: bash
         env:
           ASSET_NAME_TEMPLATE: ${{ matrix.asset_name_template }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
       - run: jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}" --app-version $APP_VERSION
         shell: bash
         env:
