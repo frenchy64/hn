@@ -35,14 +35,12 @@ jobs:
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
-      - run: jpackage @jpackage/common "@jpackage/${PLATFORM}"
-        if: matrix.os != 'windows'
+      - run: |
+          import os
+          os.system('jpackage @jpackage/common @jpackage/'+os.environ['JPACKAGE_PLATFORM'])
+        shell: python
         env:
-          PLATFORM: ${{ matrix.jpackage_platform }}
-      - run: jpackage @jpackage/common "@jpackage/${Env:PLATFORM}"
-        if: matrix.os == 'windows'
-        env:
-          PLATFORM: ${{ matrix.jpackage_platform }}
+          JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
       #- uses: actions/upload-release-asset@v1
       #  env:
       #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
