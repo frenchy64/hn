@@ -2,3 +2,6 @@
 /.idea
 /hn.iml
 /dist
+*.dmg
+*.exe
+*.deb
