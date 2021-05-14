@@ -59,7 +59,9 @@ jobs:
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
+        shell: powershell
       - run: jpackage @jpackage/common @jpackage/windows
+        shell: powershell
         #- uses: actions/upload-release-asset@v1
         #  env:
         #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
