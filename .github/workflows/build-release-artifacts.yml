@@ -8,7 +8,6 @@ on:
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
-  ASSET_VERSION: '1.0'
 jobs:
   build:
     strategy:
@@ -46,11 +45,11 @@ jobs:
         shell: bash
         env:
           JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
-      #- uses: actions/upload-release-asset@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    upload_url: ${{ github.event.release.upload_url }}
-      #    asset_path: ${{ matrix.asset_name }}
-      #    asset_name: ${{ matrix.asset_name }}
-      #    asset_content_type: ${{ matrix.asset_content_type }}
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ matrix.asset_name }}
+          asset_name: ${{ matrix.asset_name }}
+          asset_content_type: ${{ matrix.asset_content_type }}
