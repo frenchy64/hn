@@ -36,6 +36,7 @@ jobs:
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
+        shell: bash
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9.5'
