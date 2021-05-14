@@ -9,19 +9,22 @@ env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
 jobs:
-  build:
+  build-deb:
     strategy:
       matrix:
         include:
         - os: ubuntu-latest
           asset_name: cljfx-hn_1.0-1_amd64.deb
           asset_content_type: application/vnd.debian.binary-package
+          jpackage_platform: linux
         - os: macos-latest
           asset_name: cljfx-hn-1.0.dmg
           asset_content_type: application/x-apple-diskimage
+          jpackage_platform: mac
         - os: windows-latest
           asset_name: cljfx-hn-1.0.dmg
           asset_content_type: application/vnd.microsoft.portable-executable
+          jpackage_platform: windows
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
@@ -32,12 +35,19 @@ jobs:
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
-      - run: jpackage @jpackage/common @jpackage/linux
-        #- uses: actions/upload-release-asset@v1
-        #  env:
-        #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #  with:
-        #    upload_url: ${{ github.event.release.upload_url }}
-        #    asset_path: ${{ matrix.asset_name }}
-        #    asset_name: ${{ matrix.asset_name }}
-        #    asset_content_type: ${{ matrix.asset_content_type }}
+      - run: jpackage @jpackage/common "@jpackage/${PLATFORM}"
+        if: matrix.os != 'windows'
+        env:
+          PLATFORM: ${{ matrix.jpackage_platform }}
+      - run: jpackage @jpackage/common "@jpackage/${Env:PLATFORM}"
+        if: matrix.os == 'windows'
+        env:
+          PLATFORM: ${{ matrix.jpackage_platform }}
+      #- uses: actions/upload-release-asset@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    upload_url: ${{ github.event.release.upload_url }}
+      #    asset_path: ${{ matrix.asset_name }}
+      #    asset_name: ${{ matrix.asset_name }}
+      #    asset_content_type: ${{ matrix.asset_content_type }}
