@@ -23,7 +23,7 @@ jobs:
           asset_content_type: application/x-apple-diskimage
           jpackage_platform: mac
         - os: windows-latest
-          asset_name: cljfx-hn-1.0.dmg
+          asset_name: cljfx-hn-1.0.exe
           asset_content_type: application/vnd.microsoft.portable-executable
           jpackage_platform: windows
     runs-on: ${{ matrix.os }}
