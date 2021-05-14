@@ -8,6 +8,7 @@ env:
   JAVA_VERSION: '14'
 jobs:
   build:
+    # commit message should be an edn value [:release "VERSION"]
     if: "startsWith(github.event.head_commit.message, '[:release')"
     strategy:
       matrix:
@@ -54,7 +55,6 @@ jobs:
         shell: powershell
 
       - run: |
-          # expects a message of the form [:release VERSION]
           APP_VERSION=$(bb -O '(second *input*)' <<< $COMMIT_MSG)
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
