@@ -40,9 +40,7 @@ jobs:
           import subprocess
           subprocess.run(['jpackage',
                           '@jpackage/common',
-                          '@jpackage/'+os.environ['JPACKAGE_PLATFORM']]),
-                         stdout=subprocess.PIPE)
-          print(result.stdout)
+                          '@jpackage/'+os.environ['JPACKAGE_PLATFORM']]))
         shell: python
         env:
           JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
