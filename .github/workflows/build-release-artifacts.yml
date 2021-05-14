@@ -3,13 +3,12 @@ on:
   push:
     branches:
     - frenchy64-experiments
-  release:
-    types: [created]
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
 jobs:
   build:
+    if: "startsWith(github.event.head_commit.message, '[release]')"
     strategy:
       matrix:
         include:
