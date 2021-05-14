@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '14'
-      - uses: DeLaGuardo/setup-clojure@1.0
+      - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           tools-deps: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '14'
-      - uses: DeLaGuardo/setup-clojure@1.0
+      - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           tools-deps: ${{ env.CLOJURE_CLI_VERSION }}
       - run: clojure -M:uberjar
