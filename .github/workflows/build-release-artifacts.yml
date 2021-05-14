@@ -1,7 +1,7 @@
 name: Build Release Artifacts
 on:
   push:
-  - master
+  - frenchy64-experiments
   #release:
   #  types: [created]
 env:
