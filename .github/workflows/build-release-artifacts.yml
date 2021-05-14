@@ -18,14 +18,17 @@ jobs:
           asset_name: cljfx-hn_1.0-1_amd64.deb
           asset_content_type: application/vnd.debian.binary-package
           jpackage_platform: linux
+          shell: bash
         - os: macos-latest
           asset_name: cljfx-hn-1.0.dmg
           asset_content_type: application/x-apple-diskimage
           jpackage_platform: mac
+          shell: bash
         - os: windows-latest
           asset_name: cljfx-hn-1.0.dmg
           asset_content_type: application/vnd.microsoft.portable-executable
           jpackage_platform: windows
+          shell: powershell
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
@@ -39,10 +42,8 @@ jobs:
         if: ${{ matrix.os != 'windows-latest' }}
         shell: bash
       - run: clojure -M:uberjar
-        if: ${{ matrix.os == 'windows-latest' }}
-        shell: powershell
-      - run: |
-          jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}"
+        shell: ${{ matrix.shell }}
+      - run: jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}"
         shell: bash
         env:
           JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
