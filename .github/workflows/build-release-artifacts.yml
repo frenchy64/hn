@@ -55,7 +55,7 @@ jobs:
         shell: powershell
 
       - run: |
-          APP_VERSION=$(bb -O '(second *input*)' <<< $COMMIT_MSG)
+          APP_VERSION=$(bb -o '(second *input*)' <<< $COMMIT_MSG)
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
         shell: bash
