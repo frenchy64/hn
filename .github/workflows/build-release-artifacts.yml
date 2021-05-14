@@ -35,12 +35,12 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
-      - run: clj --version
-        shell: bash
-      - run: clojure --version
+      - run: clojure -M:uberjar
+        if: ${{ matrix.os != 'windows' }}
         shell: bash
       - run: clojure -M:uberjar
-        shell: bash
+        if: ${{ matrix.os == 'windows' }}
+        shell: powershell
       - run: |
           jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}"
         shell: bash
