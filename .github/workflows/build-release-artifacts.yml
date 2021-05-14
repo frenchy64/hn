@@ -55,7 +55,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '14'
-      - run: iwr -useb "download.clojure.org/install/win-install-%CLOJURE_CLI_VERSION%.ps1" | iex
+      - run: iwr -useb download.clojure.org/install/win-install-%CLOJURE_CLI_VERSION%.ps1 | iex
       - run: clojure -M:uberjar
       - run: jpackage @jpackage/common @jpackage/windows
         #- uses: actions/upload-release-asset@v1
