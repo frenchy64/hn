@@ -3,8 +3,8 @@ on:
   push:
     branches:
     - frenchy64-experiments
-  #release:
-  #  types: [created]
+  release:
+    types: [created]
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
@@ -45,11 +45,8 @@ jobs:
         shell: bash
         env:
           JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
-      - uses: actions/upload-release-asset@v1
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ matrix.asset_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ matrix.asset_name }}
-          asset_name: ${{ matrix.asset_name }}
-          asset_content_type: ${{ matrix.asset_content_type }}
