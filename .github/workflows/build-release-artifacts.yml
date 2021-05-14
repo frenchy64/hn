@@ -15,15 +15,12 @@ jobs:
         include:
         - os: ubuntu-latest
           asset_name: cljfx-hn_1.0-1_amd64.deb
-          asset_content_type: application/vnd.debian.binary-package
           jpackage_platform: linux
         - os: macos-latest
           asset_name: cljfx-hn-1.0.dmg
-          asset_content_type: application/x-apple-diskimage
           jpackage_platform: mac
         - os: windows-latest
           asset_name: cljfx-hn-1.0.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
           jpackage_platform: windows
     runs-on: ${{ matrix.os }}
     steps:
@@ -34,18 +31,21 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
+
+      # uberjar
       - run: clojure -M:uberjar
         if: ${{ matrix.os != 'windows-latest' }}
         shell: bash
       - run: clojure -M:uberjar
         if: ${{ matrix.os == 'windows-latest' }}
         shell: powershell
-      - run: |
-          jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}"
+
+      - run: jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}"
         shell: bash
         env:
           JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
       - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ matrix.asset_name }}
         env:
