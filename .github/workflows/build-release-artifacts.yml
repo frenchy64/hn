@@ -2,7 +2,7 @@ name: Build Release Artifacts
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '16'
@@ -52,13 +52,12 @@ jobs:
       - run: |
           # grab the current git tag -- it's going to replace asset_name_template's `VERSION` in 
           # the next step.
-          APP_VERSION=${GITHUB_REF/refs\/tags\//} #for sharing within this step
+          APP_VERSION=${GITHUB_REF/refs\/tags\//v} #for sharing within this step
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV #for sharing between steps
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
         shell: bash
         env:
           ASSET_NAME_TEMPLATE: ${{ matrix.asset_name_template }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
       - run: jpackage @jpackage/common "@jpackage/${JPACKAGE_PLATFORM}" --app-version $APP_VERSION
         shell: bash
         env:
@@ -66,5 +65,7 @@ jobs:
       - uses: softprops/action-gh-release@v1
         with:
           files: ${{ env.ASSET_NAME }}
+          name: Release ${{ github.ref }}
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
