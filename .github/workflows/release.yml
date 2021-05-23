@@ -5,7 +5,7 @@ on:
       - 'v*'
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
-  JAVA_VERSION: '16'
+  JAVA_VERSION: '14'
 jobs:
   release:
     strategy:
