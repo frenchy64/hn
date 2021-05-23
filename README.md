@@ -45,7 +45,7 @@ platform-specific options having their own files: [jpackage/linux](jpackage/linu
 are on Linux, you just need to execute `jpackage @jpackage/common @jpackage/linux`. 
 
 Cross-compiling is not supported by jpackage, so you will need access to all 3 OSes to 
-assemble desktop packages. This repo has an example of github actions to create all 
+assemble desktop packages. This repo has an example GitHub Actions workflow to create all 
 3 desktop packages: [.github/workflows/build-release-artifacts.yml](.github/workflows/build-release-artifacts.yml).
 To trigger it, simply push a tag with a semantic version number (but with a non-zero
 major version--DMG packages this).
