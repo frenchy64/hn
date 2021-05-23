@@ -37,7 +37,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: DeLaGuardo/setup-clojure@v3
+      - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
 
