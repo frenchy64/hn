@@ -52,7 +52,7 @@ jobs:
       - run: |
           # grab the current git tag -- it's going to replace asset_name_template's `VERSION` in 
           # the next step.
-          APP_VERSION=${GITHUB_REF/refs\/tags\//v} #for sharing within this step
+          APP_VERSION=${GITHUB_REF/refs\/tags\/v/} #for sharing within this step
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV #for sharing between steps
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
         shell: bash
