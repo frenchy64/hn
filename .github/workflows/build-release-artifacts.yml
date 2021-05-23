@@ -1,15 +1,12 @@
 name: Build Release Artifacts
 on:
   push:
-    branches:
-    - frenchy64-experiments
+    tags:
 env:
   CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
 jobs:
-  build:
-    # commit message should be an edn value [:release "VERSION"]
-    if: "startsWith(github.event.head_commit.message, '[:release')"
+  release:
     strategy:
       matrix:
         include:
@@ -35,16 +32,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-clojure-
 
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: ${{ env.JAVA_VERSION }}
       - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
-      - name: Setup Babashka
-        uses: turtlequeue/setup-babashka@v1.3.0
-        with:
-          babashka-version: 0.4.1
 
       # uberjar
       - run: clojure -X:uberjar
@@ -55,8 +49,7 @@ jobs:
         shell: powershell
 
       - run: |
-          APP_VERSION=$(bb -o '(second *input*)' <<< $COMMIT_MSG)
-          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
+          echo "APP_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
         shell: bash
         env:
