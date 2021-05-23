@@ -22,7 +22,7 @@ jobs:
           jpackage_platform: windows
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -37,7 +37,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: DeLaGuardo/setup-clojure@12f4eac60789f0256331cd11c6072e48567953b4
+      - uses: DeLaGuardo/setup-clojure@3.3
         with:
           cli: ${{ env.CLOJURE_CLI_VERSION }}
 
