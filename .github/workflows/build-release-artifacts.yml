@@ -22,7 +22,7 @@ jobs:
           jpackage_platform: windows
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.3.4
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
