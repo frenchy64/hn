@@ -4,8 +4,7 @@ on:
     tags:
       - 'v*'
 env:
-  #CLOJURE_CLI_VERSION: '1.10.3.839'
-  CLOJURE_CLI_VERSION: '1.10.1.507'
+  CLOJURE_CLI_VERSION: '1.10.3.839'
   JAVA_VERSION: '14'
 jobs:
   release:
