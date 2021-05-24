@@ -10,6 +10,8 @@ jobs:
   release:
     strategy:
       matrix:
+        # asset_name_template should contain the string VERSION 
+        # where the current version should be placed
         include:
         - os: ubuntu-latest
           asset_name_template: cljfx-hn_VERSION-1_amd64.deb
@@ -45,14 +47,16 @@ jobs:
       - run: clojure -X:uberjar
         if: ${{ matrix.os != 'windows-latest' }}
         shell: bash
+      # https://github.com/clojure/tools.deps.alpha/wiki/clj-on-Windows#run
       - run: clojure -X:uberjar
         if: ${{ matrix.os == 'windows-latest' }}
         shell: powershell
 
       - run: |
+          # the current version is everything after `v` in the current tag
           APP_VERSION=${GITHUB_REF/refs\/tags\/v/} #for sharing within this step
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV #for sharing between steps
-          # substite VERSION in asset_name_template's with current tag version
+          # substitute VERSION in asset_name_template's with current tag version
           echo "ASSET_NAME=${ASSET_NAME_TEMPLATE/VERSION/${APP_VERSION}}" >> $GITHUB_ENV
         shell: bash
         env:
