@@ -66,7 +66,7 @@ jobs:
         shell: bash
         env:
           JPACKAGE_PLATFORM: ${{ matrix.jpackage_platform }}
-      - uses: softprops/action-gh-release@9729932bfb75c05ad1f6e3a729294e05abaa7001
+      - uses: softprops/action-gh-release@fb0163a75bee697a9cfec2c931801de7c7f10042
         with:
           files: ${{ env.ASSET_NAME }}
           name: Release v${{ env.APP_VERSION }}
